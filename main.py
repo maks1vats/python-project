@@ -1,15 +1,18 @@
-def clamp_numbers(*args, **kwargs):
-    result = []
-    for i in args:
-        if kwargs.get('low') or kwargs.get('high'):
-            if i <= kwargs.get('low'):
-                result.append(kwargs.get('low'))
-            elif i >= kwargs.get('high'):
-                result.append(kwargs.get('high'))
-            else:
-                result.append(i)
+def safe_run(func):
+    def inner(a, b):
+        if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+            func(a, b)
         else:
-            result.append(i)
-    return result
+            print("Not good")
 
-print(clamp_numbers(-5, 0, 10, 20, low = 0, high = 15))
+    return inner
+
+
+@safe_run
+def mnozh(a, b):
+    return a * b
+
+
+mnozh(1, 47)
+mnozh("hello", 47)
+mnozh("hello", "artem")
